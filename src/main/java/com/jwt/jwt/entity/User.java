@@ -1,12 +1,14 @@
 package com.jwt.jwt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.jsonwebtoken.Claims;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name="user_tb")
 @Getter
 @Setter
 @Builder
@@ -35,8 +37,13 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "user_authority",
-            joinColumns = {@JoinColumn(name="user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")}
-    )
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
+
+    public User(String username, String password, Set<Authority> authorities){
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
 }
